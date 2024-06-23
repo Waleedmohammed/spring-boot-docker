@@ -19,32 +19,14 @@ services:
       - "4369:4369"
       - "25672:25672"
 
-  pageviewservice:
-    image: springframeworkguru/pageviewservice
-    ports:
-      - "8081:8081"
-    restart: always
-    depends_on:
-      - mysqldb
-      - rabbitmq
-    environment:
-      SPRING_DATASOURCE_URL: 'jdbc:mysql://mysqldb:3306/pageviewservice'
-      SPRING_PROFILES_ACTIVE: 'mysql'
-      SPRING_RABBITMQ_HOST: rabbitmq
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
   springbootdocker:
-    image: springframeworkguru/springbootdocker
+    image: springboot2
     ports:
-      - "8080:8080"
+      - "9999:9999"
     restart: always
     depends_on:
       - rabbitmq
-      - pageviewservice
+      - mysqldb
     environment:
       SPRING_RABBITMQ_HOST: rabbitmq
     healthcheck:
